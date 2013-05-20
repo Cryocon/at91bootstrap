@@ -232,6 +232,7 @@ void at91_spi0_hw_init(void)
 #ifdef CONFIG_SDCARD
 static void sdcard_set_of_name_board(char *of_name)
 {
+#ifdef CONFIG_LOAD_ONE_WIRE
 	unsigned int cpu_board_id = get_cm_sn();
 	unsigned int disp_board_id = get_dm_sn();
 
@@ -250,6 +251,9 @@ static void sdcard_set_of_name_board(char *of_name)
 
 	if (disp_board_id == BOARD_ID_PDA_DM)
 		strcat(of_name, "_pda");
+#else
+	strcpy(of_name, "at91sam9g35ek");
+#endif
 
 	strcat(of_name, ".dtb");
 }
