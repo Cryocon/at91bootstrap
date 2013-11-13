@@ -56,7 +56,6 @@ const unsigned char LCDinitWpkt2[] = {
 		LCDcmd_PwrCtl,		//8 - power control
 		LCDcmd_EntireNorm,		//9 - normal display
 		LCDcmd_DisplayON, //10 - display on
-//		LCDcmd_PageAdrs,	//11 - Set page address
 		};
 
 
@@ -80,20 +79,15 @@ static int SPI_GO(const unsigned char a0, const unsigned char *cmd,
 		return -1;
 
 	pio_set_value(LCD_A0_GPIO, a0);
-	dbg_log(1, "SF: A0 set\n\r");
 
 	at91_spi_cs_activate();
-	dbg_log(1, "SF: CS activated\n\r");
 	/* read spi status to clear events */
 	at91_spi_read_sr();
-	dbg_log(1, "SF: Read SPI status\n\r");
 	for (i = 0; i < cmd_len; i++) {
 		at91_spi_write_data(*cmd++);
 		at91_spi_read_spi();
 	}
-	dbg_log(1, "SF: SPI written\n\r");
 	at91_spi_cs_deactivate();
-	dbg_log(1, "SF: CS deactivated\n\r");
 	return 0;
 }
 
@@ -115,11 +109,8 @@ void lcd_reset() {}
 ------------------------------------------------------------*/
 void init_display(uint32_t contrast) {
 	lcd_reset();
-	dbg_log(1, "SF: LCD reset\n\r");
 	SPI_GO(0, LCDinitWpkt2, sizeof(LCDinitWpkt2) / sizeof(unsigned char));
-	dbg_log(1, "SF: LCD initialized\n\r");
 	disSetContrast(contrast); //set display contrast
-	dbg_log(1, "SF: Contrast set\n\r");
 
 	int line;
 	for (line = 0; line < 8; line++) {
@@ -151,12 +142,9 @@ void at91_spi1_hw_init(void)
 }
 
 void hw_init_hook(void) {
-	dbg_log(1, "SF: Starting hw_init_hook\n\r");
 	at91_spi1_hw_init();
-	dbg_log(1, "SF: SPI 1 initialized\n\r");
 
 	int ret = at91_spi_init(0, 1000000, SPI_MODE0);
-	dbg_log(1, "SF: SPI initialized\n\r");
 	if (ret) {
 		dbg_log(1, "SF: Fail to initialize spi\n\r");
 		return;
@@ -164,6 +152,5 @@ void hw_init_hook(void) {
 
 	at91_spi_enable();
 	init_display(40);
-//	at91_spi_disable();
 	dbg_log(1, "SF: Display initialized\n\r");
 }
