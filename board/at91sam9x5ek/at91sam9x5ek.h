@@ -35,25 +35,35 @@
  * and MCK is switched on the main oscillator.
  * PLL initialization is done later in the hw_init() function
  */
-#define MASTER_CLOCK		132096000
 #define PLL_LOCK_TIMEOUT	10000
 
 #define BAUD_RATE		115200
 #define BOARD_MAINOSC		12000000
-#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC / 3 / 2 / 3) * 200))
 #define BOARD_OSCOUNT		(AT91C_CKGR_OSCOUNT & (64 << 8))
 #define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
 #define BOARD_PLLACOUNT		(0x3F << 8)
 #define BOARD_MULA		(AT91C_CKGR_MULA & (199 << 16))
 #define BOARD_DIVA		(AT91C_CKGR_DIVA & 3)
 
+#ifdef CONFIG_BUS_SPEED_100MHZ
+#define MASTER_CLOCK		100000000
+#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC / 3 / 2 / 4) * 200))
+#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
+					| AT91C_PMC_MDIV_4 \
+					| AT91C_PMC_CSS_MAIN_CLK)
+#define BOARD_PRESCALER_PLLA		(AT91C_PMC_PLLADIV2_2 \
+					| AT91C_PMC_MDIV_4 \
+					| AT91C_PMC_CSS_PLLA_CLK)
+#else
+#define MASTER_CLOCK		132096000
+#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC / 3 / 2 / 3) * 200))
 #define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
 					| AT91C_PMC_MDIV_3 \
 					| AT91C_PMC_CSS_MAIN_CLK)
-
 #define BOARD_PRESCALER_PLLA		(AT91C_PMC_PLLADIV2_2 \
 					| AT91C_PMC_MDIV_3 \
 					| AT91C_PMC_CSS_PLLA_CLK)
+#endif
 
 #define PLLA_SETTINGS	(BOARD_CKGR_PLLA \
 			| BOARD_PLLACOUNT \
