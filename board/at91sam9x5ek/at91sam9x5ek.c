@@ -282,6 +282,7 @@ void at91_mci0_hw_init(void)
 }
 #endif /* #ifdef CONFIG_SDCARD */
 
+#define CONFIG_NANDFLASH 1
 #ifdef CONFIG_NANDFLASH
 void nandflash_hw_init(void)
 {

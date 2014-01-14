@@ -1678,8 +1678,6 @@ int load_nandflash(struct image_info *image)
 	struct nand_info nand;
 	int ret;
 
-	nandflash_hw_init();
-
 	if (nandflash_get_type(&nand))
 		return -1;
 
