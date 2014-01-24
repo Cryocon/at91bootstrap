@@ -1,4 +1,5 @@
 menu  "NAND Flash configuration"
+    depends on CONFIG_NANDFLASH
 
 choice
 	prompt "ECC Configuration"
