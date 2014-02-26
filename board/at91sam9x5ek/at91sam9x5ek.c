@@ -252,7 +252,11 @@ static void sdcard_set_of_name_board(char *of_name)
 	if (disp_board_id == BOARD_ID_PDA_DM)
 		strcat(of_name, "_pda");
 #else
+#ifdef OF_FILENAME
+	strcpy(of_name, OF_FILENAME);
+#else
 	strcpy(of_name, "at91sam9g35ek");
+#endif
 #endif
 
 	strcat(of_name, ".dtb");
