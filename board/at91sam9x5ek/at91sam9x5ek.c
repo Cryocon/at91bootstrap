@@ -320,10 +320,7 @@ void nandflash_hw_init(void)
 
 	reg = readl(AT91C_BASE_CCFG + CCFG_EBICSA);
 	reg |= AT91C_EBI_CS3A_SM;
-	if (get_cm_rev() == 'A')
-		reg &= ~AT91C_EBI_NFD0_ON_D16;
-	else
-		reg |= (AT91C_EBI_DDR_MP_EN | AT91C_EBI_NFD0_ON_D16);
+	reg |= (AT91C_EBI_DDR_MP_EN | AT91C_EBI_NFD0_ON_D16);
 
 	reg &= ~AT91C_EBI_DRV;
 	writel(reg, AT91C_BASE_CCFG + CCFG_EBICSA);
@@ -353,10 +350,7 @@ void nandflash_hw_init(void)
 		AT91C_BASE_SMC + SMC_CTRL3);
 
 	/* Configure the PIO controller */
-	if (get_cm_rev() == 'A')
-		pio_configure(nand_pins_lo);
-	else
-		pio_configure(nand_pins_hi);
+	pio_configure(nand_pins_hi);
 
 	writel((1 << AT91C_ID_PIOC_D), (PMC_PCER + AT91C_BASE_PMC));
 }
