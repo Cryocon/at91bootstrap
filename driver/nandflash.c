@@ -588,8 +588,7 @@ static int nandflash_get_type(struct nand_info *nand)
 		}
 	}
 
-	if (nand_init_on_die_ecc())
-		return -1;
+	nand_init_on_die_ecc();
 
 	nand_info_init(nand, chip);
 	
