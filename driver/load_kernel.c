@@ -273,8 +273,8 @@ int load_kernel(struct image_info *image)
 	ret = load_dataflash(image);
 #endif
 
-#ifdef CONFIG_NANDFLASH
 	nandflash_hw_init();
+#ifdef CONFIG_NANDFLASH
 	ret = load_nandflash(image);
 #endif
 
