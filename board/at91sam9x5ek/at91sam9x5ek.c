@@ -50,6 +50,20 @@
 extern void hw_init_hook(void);
 #endif
 
+static void at91_spi0_hw_deinit(void) {
+	/* Release PINs for SPI0 */
+	const struct pio_desc spi0_pins[] = {
+		{"MISO",	AT91C_PIN_PA(11),	0, PIO_DEFAULT, PIO_INPUT},
+		{"MOSI",	AT91C_PIN_PA(12),	0, PIO_DEFAULT, PIO_INPUT},
+		{"SPCK",	AT91C_PIN_PA(13),	0, PIO_DEFAULT, PIO_INPUT},
+		{"NPCS",	AT91C_PIN_PA( 7),	1, PIO_DEFAULT, PIO_INPUT},
+		{(char *)0,	0, 0, PIO_DEFAULT, PIO_PERIPH_A},
+	};
+
+	pio_configure(spi0_pins);
+
+}
+
 static void at91_dbgu_hw_init(void)
 {
 	/* Configure DBGU pins */
@@ -196,6 +210,10 @@ void hw_init(void)
 
 	/* Initialize dbgu */
 	initialize_dbgu();
+
+#ifndef CONFIG_DATAFLASH
+	at91_spi0_hw_deinit();
+#endif
 
 #ifdef CONFIG_DDR2
 	/* Initialize DDRAM Controller */
