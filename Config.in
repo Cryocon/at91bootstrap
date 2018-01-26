@@ -349,6 +349,12 @@ config CONFIG_USER_HW_INIT
 	help
 	  Initialize Hardware
 
+config CONFIG_SI_SPLASH
+	depends on CONFIG_USER_HW_INIT && CONFIG_AT91SAM9X5EK
+	bool "Use Scientific Instruments splash screen"
+	help
+	  Use Scientific Instruments splash screen instead of Cryo-Con
+
 config CONFIG_THUMB
 	depends on !CONFIG_AT91SAMA5D3XEK
 	bool "Build in thumb mode"

@@ -10,7 +10,12 @@
 #include "div.h"
 #include "debug.h"
 #include "arch/at91_pmc.h"
+
+#ifdef CONFIG_SI_SPLASH
+#include "si_splash.h"
+#else
 #include "splash.h"
+#endif
 
 //Common LCD controller commands
 #define LCDcmd_PageAdrs		0xb0	//page address 0 to 8
